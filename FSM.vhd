@@ -69,31 +69,26 @@ begin
 					else
 						PE <= S7;
 					end if;
-					
-				when S4 => --OR
-					Sel <= "01";
-					if Enter = '1' then
-						PE <= S4;
-					else
-						PE <= S7;
-					end if;
-					
-				when S5 => --XOR
-					Sel <= "10";
-					if Enter = '1' then
-						PE <= S5;
-					else
-						PE <= S7;
-					end if;
-					
-				when S6 => --NOT
+				
+				when S4 => --OU
 					Sel <= "11";
-					Enable_1 <= '0'; 
+					if Enter = '1' then
+						PE <= S3;
+					else
+						PE <= S7;
+					end if;
+					
+				when S5 => --Shift_left
+					Sel <= "01";
 					Enable_2 <= '1'; 
 					PE <= S0;
 					
+				when S6 => --Shift_right
+					Sel <= "10";
+					Enable_2 <= '1'; 
+					PE <= S0;				
+					
 				when S7 => --RESULTADO
-					Enable_1 <= '0';
 					Enable_2 <= '1';
 					PE <= S0;
 					
