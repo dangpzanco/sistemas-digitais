@@ -28,17 +28,20 @@ architecture topo_estru of minitopo is
       );
    end component;
 
-   component C3_EXCLUSIVO
-      port (A: in std_logic_vector(7 downto 0);
-            B: in std_logic_vector(7 downto 0);
-            F: out std_logic_vector(7 downto 0)
-      );
+   component desloca_esquerda
+       port (
+			CLK, RST, EN: in std_logic;
+			sr_in: in std_logic_vector(7 downto 0);
+			sr_out: out std_logic_vector(7 downto 0)
+		);
    end component;
 	
-	component C4_NEGAR
-      port (A: in std_logic_vector(7 downto 0);
-            F: out std_logic_vector(7 downto 0)
-      );
+	component desloca_direita
+       port (
+			CLK, RST, EN: in std_logic;
+			sr_in: in std_logic_vector(7 downto 0);
+			sr_out: out std_logic_vector(7 downto 0)
+		);
    end component;
 	
    component mux4x1
@@ -67,9 +70,9 @@ L1: C1_SOMA port map (CHAVE(7 downto 0), G2(7 downto 0), F1);
 
 L2: C2_OU port map (CHAVE(7 downto 0), G2(7 downto 0), F2);
 
-L3: C3_EXCLUSIVO port map (CHAVE(7 downto 0), G2(7 downto 0), F3);
+L3: desloca_esquerda port map (CLOK, BOTAO(0), BOTAO(1), CHAVE(7 downto 0), F3);
 
-L4: C4_NEGAR port map (CHAVE(7 downto 0), F4);
+L4: desloca_direita port map (CLOK, BOTAO(0), BOTAO(1), CHAVE(7 downto 0), F4);
 
 L5: mux4x1 port map (F1, F2, F3, F4, CHAVE(17 downto 16), F);
 
