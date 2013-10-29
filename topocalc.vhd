@@ -12,7 +12,8 @@ end topocalc;
 
 architecture topo_estru of topocalc is
 	signal EN: std_logic_vector (1 downto 0);
-	signal S: std_logic_vector (17 downto 0);
+	signal S: std_logic_vector (1 downto 0);
+	signal X: std_logic_vector (17 downto 0);
 
 	component minitopo
 	port ( CHAVE : IN STD_LOGIC_VECTOR(17 downto 0);
@@ -33,11 +34,12 @@ architecture topo_estru of topocalc is
 	end component;
 
 begin
-
+	X <= S & "00000000" & SW(7 downto 0);
+	
 	L1: FSM port map 
-	(CLOCK_50, KEY(0), KEY(1), SW(17 downto 16), S(17 downto 16), EN(0), EN(1));
+	(CLOCK_50, KEY(0), KEY(1), SW(17 downto 16), S, EN(0), EN(1));
 	
 	L2: minitopo port map 
-	(S(17 downto 0), HEX0(0 to 6), HEX1(0 to 6), LEDR(7 downto 0), EN(1 downto 0), CLOCK_50);
+	(X, HEX0(0 to 6), HEX1(0 to 6), LEDR(7 downto 0), EN(1 downto 0), CLOCK_50);
 
 end topo_estru;
