@@ -482,10 +482,11 @@ set_global_assignment -name VHDL_FILE C4_NEGAR.vhd
 set_global_assignment -name VHDL_FILE C3_EXCLUSIVO.vhd
 set_global_assignment -name VHDL_FILE C2_OU.vhd
 set_global_assignment -name VHDL_FILE C1_SOMA.vhd
-set_global_assignment -name VHDL_FILE topocalc.vhd
 set_global_assignment -name VHDL_FILE DecodeHEX.vhd
 set_global_assignment -name VHDL_FILE mux4x1.vhd
 set_global_assignment -name VHDL_FILE flipf.vhd
 set_global_assignment -name VHDL_FILE FSM.vhd
-set_global_assignment -name VHDL_FILE minitopo.vhd
+set_global_assignment -name VHDL_FILE desloca_direita.vhd
+set_global_assignment -name VHDL_FILE desloca_esquerda.vhd
+set_global_assignment -name VHDL_FILE topocalc.vhd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
