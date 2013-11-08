@@ -489,4 +489,6 @@ set_global_assignment -name VHDL_FILE FSM.vhd
 set_global_assignment -name VHDL_FILE desloca_direita.vhd
 set_global_assignment -name VHDL_FILE desloca_esquerda.vhd
 set_global_assignment -name VHDL_FILE topocalc.vhd
+set_global_assignment -name VHDL_FILE BIN2BCD.vhd
+set_global_assignment -name VHDL_FILE add3.vhd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
