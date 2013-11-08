@@ -75,6 +75,13 @@ architecture topo_estru of topocalc is
 			);
 	end component;
 
+	component bin2bcd
+	port (CLK, RST: in std_logic;
+			D       : in std_logic_vector(7 downto 0);
+         U, T, H : out std_logic_vector(3 downto 0)
+		   );
+	end component;
+
 begin
 
 	L0: FSM port map 
