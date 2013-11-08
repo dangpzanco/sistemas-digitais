@@ -6,7 +6,8 @@ entity topocalc is
 			KEY : IN STD_LOGIC_VECTOR(1 downto 0);
 			CLOCK_50 : IN STD_logic;
          HEX0, HEX1: out std_logic_vector(0 to 6);
-         LEDR : OUT STD_LOGIC_VECTOR(7 downto 0)
+         LEDR : OUT STD_LOGIC_VECTOR(3 downto 0);
+			LEDG : OUT STD_LOGIC_VECTOR(7 downto 0)
 			
   );
 end topocalc;
@@ -14,21 +15,8 @@ end topocalc;
 architecture topo_estru of topocalc is
 	signal EN, SEL: std_logic_vector (1 downto 0);
    signal F, F1, F2, F3, F4, G1, G2: std_logic_vector (7 downto 0);
+	signal sub, sum: std_LOGIC_VECTOR (3 downto 0);
 	--signal G1 : std_logic_vector (7 downto 0);
-
-   component C1_SOMA
-      port (A: in std_logic_vector(7 downto 0);
-            B: in std_logic_vector(7 downto 0);
-            F: out std_logic_vector(7 downto 0)
-      );
-   end component;
-
-   component C2_OU
-      port (A: in std_logic_vector(7 downto 0);
-            B: in std_logic_vector(7 downto 0);
-            F: out std_logic_vector(7 downto 0)
-      );
-   end component;
 
    component desloca_esquerda
        port (
@@ -81,15 +69,26 @@ architecture topo_estru of topocalc is
          U, T, H : out std_logic_vector(3 downto 0)
 		   );
 	end component;
+	
+   component SOMA_SUB
+      port (A, B: in std_logic_vector(7 downto 0);
+		Sel : in std_logic;
+		F   : out std_logic_vector(7 downto 0);
+		Zero, Over, Car, Neg: out std_logic
+     );
+	end component;
 
 begin
-
+  
+   LEDR <= sub when SW(17 downto 16) = "01" else
+			  sum	when SW(17 downto 16) = "00";
+  
 	L0: FSM port map 
 	(CLOCK_50, KEY(0), KEY(1), SW(17 downto 16), SEL, EN(0), EN(1));
 	
-	L1: C1_SOMA port map (SW(7 downto 0), G2(7 downto 0), F1);
+	L1: SOMA_SUB port map (SW(7 downto 0), G2(7 downto 0), '0', F1, sum(3), sum(2), sum(1), sum(0));
 
-	L2: C2_OU port map (SW(7 downto 0), G2(7 downto 0), F2);
+	L2: SOMA_SUB port map (SW(7 downto 0), G2(7 downto 0), '1', F2, sub(3), sub(2), sub(1), sub(0));
 
 	L3: desloca_esquerda port map (CLOCK_50, KEY(0), KEY(1), SW(7 downto 0), F3);
 
@@ -103,12 +102,12 @@ begin
 
 --a sugestão da aula 6 era usar 3 flipflops
 
-	R3: flipf port map (CLOCK_50, KEY(0), EN(1), F(7 downto 0), LEDR(7 downto 0));
+	R3: flipf port map (CLOCK_50, KEY(0), EN(1), F(7 downto 0), LEDG(7 downto 0));
 
 	L6: DecodeHEX port map (G1(3 downto 0), HEX0);
 
 	L7: DecodeHEX port map (G1(7 downto 4), HEX1);
 
---LEDR(7 downto 0) <= F;
+--LEDG(7 downto 0) <= F;
 	
 end topo_estru;
