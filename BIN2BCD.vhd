@@ -48,6 +48,6 @@ begin
 	
 	U <= S5(2 downto 0) & D(0);
 	T <= S7(2 downto 0) & S5(3);
-	H <= S6(3) & S7(3);
+	H <= "00" & S6(3) & S7(3);
 	
 end bin_estru;
