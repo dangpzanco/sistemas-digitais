@@ -13,11 +13,11 @@ entity topocalc is
 end topocalc;
 
 architecture topo_estru of topocalc is
-	signal EN, SEL: std_logic_vector (1 downto 0);  --signal G1 : std_logic_vector (7 downto 0);
-	signal F, F1, F2, F3, F4, G1, G2,SD0, SD1, SD2: std_logic_vector (7 downto 0); -- SD0, SD1, SD0 são os fios que irão para os Bin2BCD
-	signal sub, sum: std_LOGIC_VECTOR (3 downto 0);
+   signal EN, SEL: std_logic_vector (1 downto 0);  --signal G1 : std_logic_vector (7 downto 0);
+   signal F, F1, F2, F3, F4, G1, G2,SD0, SD1, SD2, LCD_DATA: std_logic_vector (7 downto 0); -- SD0, SD1, SD0 são os fios que irão para os Bin2BCD
+   signal sub, sum: std_LOGIC_VECTOR (3 downto 0);
 	signal A0, A3, A2, B0, B1, B2, C0, C2, C3: std_logic_vector (3 downto 0); --- fios que vão de B2BCD para os B2A
-	signal h1,h2,h3,t1,t2,t3,u1,u2,u3: std_logic_vector (7 downto 0); --- fios dos Ascii para o mux
+   signal h1,h2,h3,t1,t2,t3,u1,u2,u3: std_logic_vector (7 downto 0); --- fios dos Ascii para o mux
 
    component desloca_esquerda
        port (
@@ -104,7 +104,7 @@ begin
    LEDR <= sub when SW(17 downto 16) = "01" else --mudar
            sum when SW(17 downto 16) = "00";
         	
-M0: mux19x1 port map (h1,t1,u1,h2,t2,u2,h3,t3,u3,"38H","0Eh","06H","2BH","2DH","2AH","2FH","3DH","32H","01H", selet , LCD_DATA(7 downto 0)); --Lcd fio de saída para o LCD
+M0: mux19x1 port map (h1,t1,u1,h2,t2,u2,h3,t3,u3,"00111000",X"0E",X"06","2BH","2DH","2AH","2FH","3DH","32H","01H", selet , LCD_DATA); --Lcd fio de saída para o LCD
 --- select é a entrada para a seleção do mux, que vem da FSM 2/ 0EH ou 0FH conferir com o Bezerra!!
 		
 		
@@ -170,6 +170,6 @@ L6: DecodeHEX port map (G1(3 downto 0), HEX0);
 L7: DecodeHEX port map (G1(7 downto 4), HEX1);
 
         
-		LEDG(7 downto 0) <= F; -- tirei o LEDG como sinal de saída no R3, e coloquei P, pois preciso do sinal de saída para o bin2BCD
+	LEDG(7 downto 0) <= F; -- tirei o LEDG como sinal de saída no R3, e coloquei P, pois preciso do sinal de saída para o bin2BCD
         
 end topo_estru;
