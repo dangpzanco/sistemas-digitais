@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE EP2C35F672C6
 set_global_assignment -name TOP_LEVEL_ENTITY topocalc
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 12.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "08:46:59  SEPTEMBER 20, 2013"
-set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name LAST_QUARTUS_VERSION 12.1
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -478,10 +478,6 @@ set_location_assignment PIN_W25 -to GPIO_1[34]
 set_location_assignment PIN_W23 -to GPIO_1[35]
 set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
 set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
-set_global_assignment -name VHDL_FILE C4_NEGAR.vhd
-set_global_assignment -name VHDL_FILE C3_EXCLUSIVO.vhd
-set_global_assignment -name VHDL_FILE C2_OU.vhd
-set_global_assignment -name VHDL_FILE C1_SOMA.vhd
 set_global_assignment -name VHDL_FILE DecodeHEX.vhd
 set_global_assignment -name VHDL_FILE mux4x1.vhd
 set_global_assignment -name VHDL_FILE flipf.vhd
@@ -492,3 +488,8 @@ set_global_assignment -name VHDL_FILE topocalc.vhd
 set_global_assignment -name VHDL_FILE BIN2BCD.vhd
 set_global_assignment -name VHDL_FILE add3.vhd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name VHDL_FILE counter.vhd
+set_global_assignment -name VHDL_FILE B2A.vhd
+set_global_assignment -name VHDL_FILE SOMA_SUB.vhd
+set_global_assignment -name VHDL_FILE mux19x1.vhd
+set_global_assignment -name VHDL_FILE fulladder.vhd
