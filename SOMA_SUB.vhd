@@ -4,7 +4,7 @@ use IEEE.std_logic_unsigned.all;
 
 entity SOMA_SUB is
 port (A, B: in std_logic_vector(7 downto 0);
-		Sel : in std_logic;
+		Sel : in std_logic; --ligar direto na chave SW16
 		F   : out std_logic_vector(7 downto 0);
 		Zero, Over, Car, Neg: out std_logic
      );

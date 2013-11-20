@@ -88,7 +88,6 @@ begin
 				when S0 =>
 				Enable_1 <= '0';
 				Enable_2 <= '0';
-				Selection <=
 					
 				when S1 =>
 				Enable_1 <= '1';

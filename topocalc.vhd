@@ -56,9 +56,9 @@ architecture topo_estru of topocalc is
 
 	component FSM
 	port ( 
-			Clk, Rst, Enter : in std_logic; 
-			Operacao: in std_logic_vector(1 downto 0); 
-			Sel: out std_logic_vector(1 downto 0); 
+			Clock, Reset, Enter : in std_logic; 
+			Operation: in std_logic_vector(1 downto 0); 
+			Selection: out std_logic_vector(1 downto 0); 
 			Enable_1, Enable_2: out std_logic 
 			);
 	end component;
