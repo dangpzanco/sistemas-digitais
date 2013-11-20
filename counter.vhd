@@ -9,7 +9,7 @@ entity counter is
 		  );
 end counter;
 
-architecture counter_behav of counter is
+architecture counter_behv of counter is
 signal count : std_logic_vector(4 downto 0);
 	begin
 	
