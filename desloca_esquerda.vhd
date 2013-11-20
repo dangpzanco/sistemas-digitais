@@ -9,7 +9,7 @@ end desloca_esquerda;
 architecture behv of desloca_esquerda is
 	signal sr: std_logic_vector(7 downto 0);
 begin
-	process(CLK, sr_in) 
+	process(CLK, EN, sr_in) 
 	begin 
 		if RST = '0' then
 			sr <= (others => '0');
