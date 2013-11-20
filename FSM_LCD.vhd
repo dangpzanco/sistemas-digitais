@@ -24,13 +24,13 @@ end component;
 	
 begin 
 
-	L1: port map counter(Clock, count_reset, Delay)
+	L1: counter port map (Clock, count_reset, Delay);
 
 	P1: process (Clock, RST, Sign, Operation, Delay) 
 		begin 
 			-- não esquecer do end if;
 			if Reset = '0' then 
-				EA <= S0; 
+				EA <= S0;
 			elsif Clock'event and Clock = '1' then 			
 				case EA is
 
