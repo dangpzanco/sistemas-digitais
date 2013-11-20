@@ -17,7 +17,7 @@ architecture FSM_beh of FSM is
 
 begin 
 
-	P1: process (Clock, Reset, Enter) 
+	P1: process (Clock, Reset, Enter, Operation) 
 		begin 
 			-- não esquecer do end if;
 			if Reset = '0' then 
@@ -40,7 +40,7 @@ begin
 						end if;
 					
 					when S2 =>
-						if    Operation = "00" then 
+						if Operation = "00" then 
 							EA <= S3; -- Fazer SOMA 
 						elsif Operation = "01" then 
 							EA <= S4; -- Fazer SUB 
@@ -127,7 +127,3 @@ begin
 			end case;
 		end process;
 end FSM_beh;
-
-		
-		
-		
