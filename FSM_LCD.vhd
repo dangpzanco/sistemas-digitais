@@ -1,19 +1,20 @@
 library ieee;
 use ieee.std_logic_1164.all; 
+use ieee.std_logic_unsigned.all;
 
 entity FSM_LCD is 
         port ( 
-                        Clock, RST, Sign: in std_logic; 
-                        Operation: in std_logic_vector(4 downto 0); 
-                        Selection: out std_logic_vector(1 downto 0); 
-                        RS, EN: out std_logic 
+	Clock, RST, Sign: in std_logic; 
+	Operation: in std_logic_vector(4 downto 0); 
+	Selection: out std_logic_vector(1 downto 0); 
+	RS, EN: out std_logic
                         ); 
 end FSM_LCD; 
 
 architecture FSM_beh of FSM_LCD is 
-        type states is (S0, S1, S2, S3, S4, S5, S6, S7); 
-        signal EA: states;
-        signal count_reset: std_logic;
+        type states is (C0, C1, C2); 
+        signal CA, EA, PE: states;
+        signal delay: std_logic_vector(4 downto 0);
 
 component counter
         port (
@@ -24,10 +25,11 @@ end component;
         
 begin 
 
-        P0: process (Clock, Reset)
+        P0: process (Clock, RST)
 				begin
-					if reset = '0' then
+					if RST = '0' then
 						CA <= C0;
+						--EA <= S0;
 					elsif clock'event and clock = '1' then
 						case CA is
 							when C0 =>
@@ -37,25 +39,24 @@ begin
 								delay <= delay + 1;
 								CA <= C2;
 							when C2 =>
-								if delay <= "11110" then --30 cycles = 600ns
-									EA <= PE;
-									CA <= C0;
-								else
+								if delay <= "11110" then --59 cycles = 1180ns
 									CA <= C1;
+								else
+									CA <= C0;
+									--EA <= PE;
 								end if;
-								
-								
+					end case;
 					end if;
 				end process;
 					
 
-        P1: process (Clock, RST, Sign, Operation, Delay) 
-                begin 
+        --P1: process (Clock, RST, Sign, Operation, Delay) 
+                --begin 
                         -- não esquecer do end if;
-                        if Reset = '0' then 
-                                EA <= S0;
-                        elsif Clock'event and Clock = '1' then                         
-                                case EA is
+                        --if Reset = '0' then 
+                        --        EA <= S0;
+                        --elsif Clock'event and Clock = '1' then                         
+                                --case EA is
 
 end FSM_beh;
 
