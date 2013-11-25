@@ -12,14 +12,14 @@ entity FSM_LCD is
 end FSM_LCD; 
 
 architecture FSM_beh of FSM_LCD is 
-        type states0 is (C0, C1, C2);
-        type states1 is (B0, B1, B2);
-		  type states2 is (CMD1, CMD2, CMD3, ESOMA, EMULT, ESUB, RESULT_U1, RESULT_T1, OP2_T3, RESULT_H1, OP1_H2, OP1_T2, OP1_U2, OP2_H3, EDIV, NEG_OPR, NEG_OP2, NEG_OP1, OP2_U3, LIMPA, EIGUAL, Edois);
-		  signal CA: states0;
-		  signal BA, PB: states1;
-		  signal EA, PE: states2;
-        signal delay: std_logic_vector(4 downto 0);
-		  signal iniciado: std_logic;
+	type states0 is (C0, C1, C2);
+	type states1 is (B0, B1, B2);
+	type states2 is (CMD1, CMD2, CMD3, ESOMA, EMULT, ESUB, RESULT_U1, RESULT_T1, OP2_T3, RESULT_H1, OP1_H2, OP1_T2, OP1_U2, OP2_H3, EDIV, NEG_OPR, NEG_OP2, NEG_OP1, OP2_U3, LIMPA, EIGUAL, Edois);
+	signal CA: states0;
+	signal BA, PB: states1;
+	signal EA, PE: states2;
+	signal delay: std_logic_vector(4 downto 0);
+	signal iniciado: std_logic;
 
 component counter
         port (
@@ -237,4 +237,5 @@ begin
 			end process;
 
 end FSM_beh;
+
 
