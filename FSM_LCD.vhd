@@ -26,13 +26,11 @@ end component;
         
 begin 
 
-
 	P0: process(Clock, RST)
 			begin
 				if RST = '0' then
 					CA <= C0;
 					EA <= CMD1;
-					--BA <= B0;
 				elsif Clock'event and Clock = '1' then
 					case CA is
 						when C0 =>
@@ -48,14 +46,34 @@ begin
 							else
 								cont <= '1';
 								CA <= C0;
-								EA <= PE;
-								--BA <= PB;
+								BA <= PB;
 							end if;
 					end case;
 				end if;
 			end process;
+	
+	P1: process (enviando, RST)
+			begin
+				if enviando = '0' or RST = '0' then
+					EN <= '0';
+					BA <= B0;
+				else
+					case BA is
+						when B0 =>
+							EN <= '0';
+							PB <= B1;
+						when B1 =>
+							EN <= '1';
+							PB <= B2;
+						when B2 =>
+							EN <= '0';
+							PB <= B0;
+							EA <= PE;
+					end case;
+				end if;
+			end process;
 
-	P1: process(Clock, RST, Sign, Operation) 
+	P2: process(Clock, RST, Sign, Operation) 
 		begin 
 			case EA is
 					
