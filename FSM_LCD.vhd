@@ -57,6 +57,12 @@ begin
 				if enviando = '0' or RST = '0' then
 					EN <= '0';
 					BA <= B0;
+					EA <= PE;
+				
+				elsif RST = '0' then
+					EN <= '0';
+					BA <= B0;
+
 				else
 					case BA is
 						when B0 =>
