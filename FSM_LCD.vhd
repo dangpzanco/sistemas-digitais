@@ -92,49 +92,26 @@ begin
 						--else
 							--PE <= LIMPA;
 						--end if;
-					
-					when CMD1_EN1 =>
-						RS <= '0';
-						EN <= '1';
-						Selection <= "01001";
-						PE <= CMD1_EN0;
 
-					when CMD1_EN0 =>
-						RS <= '0';
-						EN <= '0';
-						Selection <= "01001";
-						PE <= CMD2;
 						
 					when CMD2 =>
 						RS <= '0';
 						EN <= '1';
 						Selection <= "01010";
 						PE <= CMD2_EN0;
-					
-					when CMD2_EN0 =>
-						RS <= '0';
-						EN <= '0';
-						Selection <= "01010";
-						PE <= CMD3;
-					
+
 					when CMD3 =>
 						RS <= '0';
 						EN <= '1';
 						Selection <= "01011";
 						PE <= CMD3_EN0;
 					
-					when CMD3_EN0 =>
-						RS <= '0';
-						EN <= '0';
-						Selection <= "01011";
-						PE <= LIMPA;
-						--iniciado <= '1';
-					
 					when LIMPA =>
 						RS <= '0';
 						EN <= '1';
 						Selection <= "01100";
 						PE <= LIMPA_EN0;
+						iniciado <= '1';
 					
 					when LIMPA_EN0 =>
 						RS <= '0';
