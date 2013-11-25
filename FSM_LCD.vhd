@@ -82,60 +82,158 @@ begin
 	P2: process(Clock, RST, Sign, Operation) 
 		begin 
 			case EA is
-					
-					when CMD1 =>
-						RS <= '0';
-						EN <= '0';
-						--if inciado = '0' then
-							Selection <= "01001";
-							PE <= CMD1_EN1;
-						--else
-							--PE <= LIMPA;
-						--end if;
-
-						
-					when CMD2 =>
-						RS <= '0';
-						EN <= '1';
-						Selection <= "01010";
-						PE <= CMD2_EN0;
-
-					when CMD3 =>
-						RS <= '0';
-						EN <= '1';
-						Selection <= "01011";
-						PE <= CMD3_EN0;
-					
-					when LIMPA =>
-						RS <= '0';
-						EN <= '1';
-						Selection <= "01100";
-						PE <= LIMPA_EN0;
-						iniciado <= '1';
-					
-					when LIMPA_EN0 =>
-						RS <= '0';
-						EN <= '0';
-						Selection <= "01100";
-						--if Operation = "00" then
-							PE <= ESOMA;
-						--elsif Operation = "01" then
-							--PE <= ESUB;
-						--elsif Operation = "10" then
-							--PE <= EDIV;
-						--else 
-							--PE <= EMULTI;
-					
-					when ESOMA =>
-						RS <= '1';
-						EN <= '0';
-						Selection <= "01100";
-						--if Sign = '1' then
-							--PE <= NEG_OP1;
-						--else
-							--PE <= ESOMA_
+                                        
+				when CMD1 =>   -- 038H
+					RS <= '0';
+					Selection <= "01001";
+					PE <= CMD2;
+										
+				when CMD2 =>	-- 0FH
+					RS <= '0';
+					Selection <= "01010";
+					PE <= CMD3;
+										
+				when CMD3 =>	--06H
+					RS <= '0';
+					Selection <= "01011";
+					PE <= LIMPA;
+											
+				when LIMPA =>	--01H
+					RS <= '0';
+					Selection <= "10010";
+					if Sign = '1' then 
+						PE <= NEG_OP1;
+					else
+						PE <= OP1_H2;
+					end if;
+										
+				when NEG_OP1 =>	--SINAL NEGATIVO OP1
+					RS <= '1';
+					Selection <= "01101";
+					if Sign = '1' then
+						PE <= OP1_H2;
+					end if;
+										
+				when OP1_H2 =>	--H2
+					RS <= '1';
+					Selection <= "00011";
+					PE <= OP1_T2;
+										                                      --OPERANDO 1
+				when OP1_T2 =>	--T2
+					RS <= '1';
+					Selection <= "00100";
+					PE <= OP1_U2;
+										
+				when OP1_U2 =>	--U2
+					RS <= '1';
+					Selection <= "00101";
+					if Operation = "00" then
+						PE <= ESOMA;
+					elsif Operation = "01" then
+						PE <= ESUB;
+					end if;
+										
+				when ESOMA =>	-- MAIS
+					RS <= '1';
+					Selection <= "01100";
+					if Sign = '1' then
+						PE <= NEG_OP2;
+					else
+						PE <= OP2_H3;
+					end if;
+										
+				when ESUB =>	-- MENOS
+					RS <= '1';
+					Selection <= "01101";
+					if Sign = '1' then
+						PE <= NEG_OP2;
+					else
+						PE <= OP2_H3;
+					end if;
+										
+				when EDIV =>	--BARRA
+					RS <= '1';
+					Selection <= "01111";
+					if Sign = '1' then
+						PE <= NEG_OP2;
+					else
+						PE <= OP2_H3;
+					end if;
+										
+				when EMULT =>	--VEZES
+					RS <= '1';
+					Selection <= "01110";
+					if Sign = '1' then
+						PE <= NEG_OP2;
+					else
+						PE <= OP2_H3;
+					end if;
+										
+				when NEG_OP2 =>	--SINAL NEGATIVO OP2
+					RS <= '1';
+					Selection <= "01101";
+					if Sign = '1' then
+						PE <= OP2_H3;
+					end if;
+										
+				when OP2_H3 =>	--H3
+					RS <= '1';
+					Selection <= "00110";
+					PE <= OP2_T3;
+										
+				when OP2_T3 =>	--T3
+					RS <= '1';						--OPERANDO 2 E 1(/ e *)
+					Selection <= "00111";
+					PE <= OP2_U3;
+											
+				when OP2_U3 =>	--U3
+					RS <= '1';
+					election <= "01000";
+					if Operation = "00" then
+						PE <= EIGUAL;
+					elsif Operation = "01"then
+						PE <= EIGUAL;
+					elsif Operation = "10" then
+						PE <= Edois;
+					else
+						PE <= Edois;
+					end if;
+										
+				when Edois =>	--2
+					RS <= '1';
+					Selection <= "10001";
+					PE <= EIGUAL;	
+										
+				when EIGUAL =>	--IGUAL
+					RS <= '1';
+					Selection <= "10000";
+					if Sign = '1' then
+						PE <= NEG_OPR;
+					else
+						PE <= RESULT_H1;
+					end if;
+										
+				when NEG_OPR =>	--SINAL NEGATIVO RESULTADO
+					RS <= '1';
+					Selection <= "01101";
+					if Sign = '1' then
+						PE <= RESULT_H1;
+					end if;
+										
+				when RESULT_H1 =>	--H1
+					RS <= '1';
+					Selection <= "00000";
+										
+				when RESULT_T1 =>	--	T1					--RESULTADO
+					RS <= '1';
+					Selection <= "00001";
+										
+				when RESULT_U1 =>	--U1
+					RS <= '1';
+					Selection <= "00010";
+										
 				end case;
-		end process;
+			end process;
 
 end FSM_beh;
 
