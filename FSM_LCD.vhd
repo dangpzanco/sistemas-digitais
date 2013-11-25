@@ -12,10 +12,14 @@ entity FSM_LCD is
 end FSM_LCD; 
 
 architecture FSM_beh of FSM_LCD is 
-        type states is (C0, C1, C2, CMD1, CMD1_EN0, CMD1_EN1, CMD2, CMD2_EN0, CMD3, CMD3_EN0, ESOMA, LIMPA, LIMPA_EN0); --EMULTI, ESUB, EDIV,
-        signal CA, EA, PE: states;
+        type states0 is (C0, C1, C2);
+        type states1 is (B0, B1, B2);
+		  type states2 is (CMD1, CMD2, CMD3, ESOMA, EMULT, ESUB, RESULT_U1, RESULT_T1, OP2_T3, RESULT_H1, OP1_H2, OP1_T2, OP1_U2, OP2_H3, EDIV, NEG_OPR, NEG_OP2, NEG_OP1, OP2_U3, LIMPA, EIGUAL, Edois);
+		  signal CA: states0;
+		  signal BA, PB: states1;
+		  signal EA, PE: states2;
         signal delay: std_logic_vector(4 downto 0);
-		  signal cont, enable_in, enable_out, envio, iniciado: std_logic;
+		  signal iniciado: std_logic;
 
 component counter
         port (
@@ -30,13 +34,12 @@ begin
 			begin
 				if RST = '0' then
 					CA <= C0;
-					EA <= CMD1;
+					BA <= B0;
 				elsif Clock'event and Clock = '1' then
 					case CA is
 						when C0 =>
 							delay <= (others => '0');
 							CA <= C1;
-							cont <= '0';
 						when C1 =>
 							delay <= delay + 1;
 							CA <= C2;
@@ -44,7 +47,6 @@ begin
 							if delay <= "11110" then --59 cycles = 1180ns
 								CA <= C1;
 							else
-								cont <= '1';
 								CA <= C0;
 								BA <= PB;
 							end if;
@@ -52,17 +54,11 @@ begin
 				end if;
 			end process;
 	
-	P1: process (enviando, RST)
+	P1: process (RST, BA)
 			begin
-				if enviando = '0' then
+				if RST = '0' then
 					EN <= '0';
-					BA <= B0;
-				
-				elsif RST = '0' then
-					EN <= '0';
-					BA <= B0;
-					EA <= PE;
-
+					EA <= CMD1;
 				else
 					case BA is
 						when B0 =>
@@ -79,14 +75,18 @@ begin
 				end if;
 			end process;
 
-	P2: process(Clock, RST, Sign, Operation) 
+	P2: process(EA, Clock, RST, Sign, Operation) 
 		begin 
 			case EA is
                                         
 				when CMD1 =>   -- 038H
 					RS <= '0';
 					Selection <= "01001";
-					PE <= CMD2;
+					if iniciado = '0' then
+						PE <= CMD2;
+					else
+						PE <= LIMPA;
+					end if;
 										
 				when CMD2 =>	-- 0FH
 					RS <= '0';
@@ -95,6 +95,7 @@ begin
 										
 				when CMD3 =>	--06H
 					RS <= '0';
+					iniciado <= '1';
 					Selection <= "01011";
 					PE <= LIMPA;
 											
@@ -118,7 +119,7 @@ begin
 					RS <= '1';
 					Selection <= "00011";
 					PE <= OP1_T2;
-										                                      --OPERANDO 1
+										         --OPERANDO 1
 				when OP1_T2 =>	--T2
 					RS <= '1';
 					Selection <= "00100";
@@ -188,7 +189,7 @@ begin
 											
 				when OP2_U3 =>	--U3
 					RS <= '1';
-					election <= "01000";
+					Selection <= "01000";
 					if Operation = "00" then
 						PE <= EIGUAL;
 					elsif Operation = "01"then
