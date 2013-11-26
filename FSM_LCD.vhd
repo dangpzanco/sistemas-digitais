@@ -4,9 +4,9 @@ use ieee.std_logic_unsigned.all;
 
 entity FSM_LCD is 
         port ( 
-	Clock, RST, Sign : in std_logic; 
-	Operation : in std_logic_vector(1 downto 0); 
-	Selection : out std_logic_vector(4 downto 0); 
+	Clock, RST, Sign : in std_logic;
+	Operation : in std_logic_vector(1 downto 0);
+	Selection : out std_logic_vector(4 downto 0);
 	RS, EN : out std_logic
                         ); 
 end FSM_LCD; 
@@ -35,7 +35,6 @@ begin
 				if RST = '0' then
 					CA <= C0;
 					BA <= B2;
-					EA <= S0;
 				elsif NotSending = '1' then
 					BA <= B2;
 				elsif Clock'event and Clock = '1' then
@@ -47,7 +46,7 @@ begin
 							delay <= delay + 1;
 							CA <= C2;
 						when C2 =>
-							if delay <= "11110" then --59 cycles = 1180ns
+							if delay <= "00001" then --59 cycles = 1180ns "11110"
 								CA <= C1;
 							else
 								CA <= C0;
@@ -59,6 +58,9 @@ begin
 	
 	P1: process (RST, BA)
 			begin
+				if RST = '0' then
+					EA <= S0;
+				else
 					case BA is
 						when B0 =>
 							EN <= '0';
@@ -71,6 +73,7 @@ begin
 							PB <= B0;
 							EA <= PE;
 					end case;
+				end if;
 			end process;
 
 	P2: process(EA, Sign, Operation, iniciado) 
