@@ -14,12 +14,12 @@ end FSM_LCD;
 architecture FSM_beh of FSM_LCD is 
 	type states0 is (C0, C1, C2);
 	type states1 is (B0, B1, B2);
-	type states2 is (CMD1, CMD2, CMD3, ESOMA, EMULT, ESUB, RESULT_U1, RESULT_T1, OP2_T3, RESULT_H1, OP1_H2, OP1_T2, OP1_U2, OP2_H3, EDIV, NEG_OPR, NEG_OP2, NEG_OP1, OP2_U3, LIMPA, EIGUAL, Edois);
+	type states2 is (S0, CMD1, CMD2, CMD3, ESOMA, EMULT, ESUB, RESULT_U1, RESULT_T1, OP2_T3, RESULT_H1, OP1_H2, OP1_T2, OP1_U2, OP2_H3, EDIV, NEG_OPR, NEG_OP2, NEG_OP1, OP2_U3, LIMPA, EIGUAL, Edois);
 	signal CA: states0;
 	signal BA, PB: states1;
 	signal EA, PE: states2;
 	signal delay: std_logic_vector(4 downto 0);
-	signal NotSending: std_logic;
+	signal iniciado, NotSending: std_logic;
 
 component counter
         port (
@@ -78,7 +78,7 @@ begin
 			case EA is
             
 				when S0 => 
-					NotSending = '1';
+					--NotSending = '1';
 					if iniciado = '0' then
 						PE <= CMD1;
 					else
@@ -108,38 +108,7 @@ begin
 				when LIMPA =>        --01H
 					RS <= '0';
 					Selection <= "10010";
-					PE <= ESCOLHE;
-										  
-				when ESCOLHE =>
-					RS <= '1';
-				if Operation = "00" then
-					Selection <= "00011";
-				elsif Sign = '1' then
-					PE <= Neg_OP1;
-				else
-					PE <= OP1_H2;
-				end if;
-				if Operation = "01" then
-					Selection <= "00011";
-				elsif Sign = '1' then
 					PE <= NEG_OP1;
-				else
-					PE <= OP1_H2;
-				end if;
-				if Operation = "10" then
-					Selection <= "00110";
-				elsif Sign = '1' then
-					PE <= NEG_OP2;
-				else
-					PE <= OP2_H3;
-				end if;
-				if Operation = "11" then
-					Selection <= "00110";
-				elsif Sign = '1' then
-					PE <= NEG_OP2;
-				else
-					PE <= OP2_H3;
-				end if;
 												
 				when NEG_OP1 =>        --SINAL NEGATIVO OP1
 					RS <= '1';
