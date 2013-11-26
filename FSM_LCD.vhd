@@ -109,42 +109,33 @@ begin
 					RS <= '0';
 					Selection <= "10010";
 					PE <= ESCOLHE;
-                                
 										  
 				when ESCOLHE =>
 					RS <= '1';
-				if 
-					Operation = "00" then
-					selection <= "00011";
-				elsif 
-					Sign = '1' then
+				if Operation = "00" then
+					Selection <= "00011";
+				elsif Sign = '1' then
 					PE <= Neg_OP1;
 				else
 					PE <= OP1_H2;
 				end if;
-				if 
-					Operation = "01" then
+				if Operation = "01" then
 					Selection <= "00011";
-				elsif
-					Sign = '1' then
+				elsif Sign = '1' then
 					PE <= NEG_OP1;
 				else
 					PE <= OP1_H2;
 				end if;
-				if
-					Operation = "10" then
+				if Operation = "10" then
 					Selection <= "00110";
-				elsif
-					Sign = '1' then
+				elsif Sign = '1' then
 					PE <= NEG_OP2;
 				else
 					PE <= OP2_H3;
 				end if;
-				if
-					Operation = "11" then
+				if Operation = "11" then
 					Selection <= "00110";
-				elsif
-					Sign = '1' then
+				elsif Sign = '1' then
 					PE <= NEG_OP2;
 				else
 					PE <= OP2_H3;
@@ -262,11 +253,11 @@ begin
 					if Sign = '1' then
 						PE <= RESULT_H1;
 					end if;
-                                                                                
+
 				when RESULT_H1 =>			--H1
 					RS <= '1';
 					Selection <= "00000";
-                                                                                
+
 				when RESULT_T1 =>			--T1       --RESULTADO
 					RS <= '1';
 					Selection <= "00001";
@@ -279,4 +270,3 @@ begin
 			end process;
 
 end FSM_beh;
-
