@@ -8,7 +8,7 @@ entity flipf is port (
 end flipf;
 architecture behv of flipf is
 begin
-	process(CLK, RST, D)
+	process(CLK,D,EN) 
 	begin 
 		if RST = '0' then
 			Q <= (others => '0');
